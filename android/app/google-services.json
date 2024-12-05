@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997128644491",
+    "project_id": "projectpm2-d79bf",
+    "storage_bucket": "projectpm2-d79bf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997128644491:android:b4b821de82b1cb8459b18e",
+        "android_client_info": {
+          "package_name": "com.syarif.projectpm2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkJs7mJj2EW5hu_10iw7oILi4xJvoX5H8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
