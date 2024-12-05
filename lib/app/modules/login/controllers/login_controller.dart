@@ -1,23 +1,14 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  final cEmail = TextEditingController();
+  final cPass = TextEditingController();
 
   @override
   void onClose() {
+    cEmail.dispose();
+    cPass.dispose();
     super.onClose();
   }
-
-  void increment() => count.value++;
 }
