@@ -9,7 +9,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reset Password'),
+        title: const Text('Calcalc Reset Password'),
         centerTitle: true,
       ),
       body: Padding(
@@ -21,9 +21,17 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                 controller: controller.emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Color(0xFF1B5E20)),
+                      ),
                 ),
                 keyboardType: TextInputType.emailAddress,
+                
               ),
               SizedBox(height: 32),
               ElevatedButton(
@@ -32,9 +40,22 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                     : () {
                         controller.sendResetPasswordEmail();
                       },
-                child: controller.isLoading.value
-                    ? CircularProgressIndicator()
-                    : Text('Send Reset Email'),
+                child: const Text(
+                      'Send Reset Email',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1B5E20), // Warna hijau
+                      minimumSize:
+                          const Size(double.infinity, 48), // Ukuran tombol
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            8), // Radius yang sama dengan TextField
+                      ),
+                    ),
               ),
             ],
           );
