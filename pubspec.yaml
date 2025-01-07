@@ -67,6 +67,7 @@ flutter:
     - assets/image/mockup.png
     - assets/image/google.png
     - assets/image/logo_ijo.png
+    - assets/image/okarun.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

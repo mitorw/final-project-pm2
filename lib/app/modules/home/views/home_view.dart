@@ -16,8 +16,8 @@ class HomeView extends GetView<HomeController> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(
-                'https://github.com/ZaVyn/bahan/blob/main/okarun.jpg?raw=true'),
+            backgroundImage: AssetImage('assets/image/okarun.jpg'),
+            radius: 24,
           ),
         ),
         title: Text(
@@ -56,7 +56,7 @@ class HomeView extends GetView<HomeController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildInfoBox("weight"),
+                    _buildInfoBox("Weight"),
                     _buildInfoBox("Height"),
                     _buildInfoBox("Activity"),
                   ],
