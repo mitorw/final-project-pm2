@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/artikel/bindings/artikel_binding.dart';
+import '../modules/artikel/views/artikel_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.RESET_PASSWORD,
       page: () => const ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.ARTIKEL,
+      page: () => const ArtikelView(),
+      binding: ArtikelBinding(),
     ),
   ];
 }
