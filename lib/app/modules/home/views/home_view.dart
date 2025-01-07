@@ -107,13 +107,19 @@ class HomeView extends GetView<HomeController> {
                     ],
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return _buildFoodItem("White Rice", "205 Calories", "per / 158 gr / 1 cup");
-                      },
-                    ),
-                  )
+                    child: Obx(() {
+                      if (controller.foodItems.isEmpty) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return ListView.builder(
+                        itemCount: controller.foodItems.length,
+                        itemBuilder: (context, index) {
+                          final item = controller.foodItems[index];
+                          return _buildFoodItem(item.name, item.calories, item.detail);
+                        },
+                      );
+                    }),
+                  ),
                 ],
               ),
             ),
