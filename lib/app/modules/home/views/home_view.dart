@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:myapp/app/modules/artikel/views/artikel_view.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -106,20 +107,7 @@ class HomeView extends GetView<HomeController> {
                       Icon(Icons.filter_1_outlined),
                     ],
                   ),
-                  Expanded(
-                    child: Obx(() {
-                      if (controller.foodItems.isEmpty) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      return ListView.builder(
-                        itemCount: controller.foodItems.length,
-                        itemBuilder: (context, index) {
-                          final item = controller.foodItems[index];
-                          return _buildFoodItem(item.name, item.calories, item.detail);
-                        },
-                      );
-                    }),
-                  ),
+                  
                 ],
               ),
             ),
@@ -131,9 +119,16 @@ class HomeView extends GetView<HomeController> {
         selectedItemColor: Color(0xFF1F3826),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
+        onTap: (index) {
+          if (index == 1) {
+            Get.to(() => ArtikelView());
+          }
+          // Tambahkan logika lainnya untuk tab yang lain
+        },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.note_alt_outlined), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
