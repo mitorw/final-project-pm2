@@ -73,8 +73,8 @@ class FoodView extends GetView<FoodController> {
                   if (controller.searchResults.isEmpty) {
                     return const Center(
                       child: Text(
-                      'No results found',
-                      style: TextStyle(color: Colors.white),
+                        'No results found',
+                        style: TextStyle(color: Colors.white),
                       ),
                     );
                   }
@@ -108,7 +108,7 @@ class FoodView extends GetView<FoodController> {
                                 color: Colors.grey.shade300,
                                 image: const DecorationImage(
                                   image: AssetImage(
-                                      'assets/food.jpg'), // Ganti dengan gambar Anda
+                                      'assets/image/food.jpg'), // Ganti dengan gambar Anda
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -138,6 +138,17 @@ class FoodView extends GetView<FoodController> {
                                   ),
                                 ],
                               ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add, color: Colors.green),
+                              onPressed: () {
+                                final food = {
+                                  'name': 'Pizza',
+                                  'calories': 300,
+                                  'weight': 200,
+                                }; // Contoh data makanan
+                                Get.back(result: food);
+                              },
                             ),
                           ],
                         ),

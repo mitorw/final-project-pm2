@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:myapp/app/controllers/auth_controller.dart';
+import 'package:myapp/app/modules/home/controllers/home_controller.dart';
 
 import 'app/routes/app_pages.dart';
 import 'firebase_options.dart';
@@ -19,6 +20,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final CAuth = Get.put(AuthController(), permanent: true);
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {

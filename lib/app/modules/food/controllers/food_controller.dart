@@ -5,7 +5,8 @@ class FoodController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Variabel untuk menyimpan hasil pencarian
-  var searchResults = <Map<String, dynamic>>[].obs;
+  var searchResults = [].obs; // Hasil pencarian
+  var homeFoodList = [].obs;  // Daftar makanan di HomeView
 
   // Fungsi untuk mencari makanan berdasarkan nama
   void searchFood(String query) async {
@@ -29,5 +30,9 @@ class FoodController extends GetxController {
     } catch (e) {
       print('Error fetching data: $e');
     }
+  }
+  
+  void addToHome(Map<String, dynamic> food) {
+    homeFoodList.add(food);
   }
 }

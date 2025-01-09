@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:get/get.dart';
 import 'package:myapp/app/modules/artikel/views/artikel_view.dart';
@@ -89,6 +90,29 @@ class HomeView extends GetView<HomeController> {
           SizedBox(
             height: 16,
           ),
+          Expanded(
+            child: Obx(() {
+              if (controller.foodList.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No food added yet.",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              }
+              return ListView.builder(
+                itemCount: controller.foodList.length,
+                itemBuilder: (context, index) {
+                  final food = controller.foodList[index];
+                  return _buildFoodItem(
+                    food['name'],
+                    '${food['calories']} cal',
+                    '${food['weight']} g',
+                  );
+                },
+              );
+            }),
+          )
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -96,21 +120,28 @@ class HomeView extends GetView<HomeController> {
         selectedItemColor: Color(0xFF1F3826),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
-        onTap: (index) {
+        onTap: (index) async {
           if (index == 1) {
             Get.to(() => ArtikelView());
-          } if (index == 2) {
-            Get.to(() => FoodView());
-          } if (index == 3) {
+          }
+          if (index == 2) {
+            final selectedFood = await Get.to(() => FoodView());
+            if (selectedFood != null) {
+              controller.addFoodToList(selectedFood); // Tambahkan makanan ke daftar
+            }
+          }
+          if (index == 3) {
             Get.to(() => ArtikelView());
-          } if (index == 4) {
+          }
+          if (index == 4) {
             Get.to(() => ArtikelView());
           }
           // Tambahkan logika lainnya untuk tab yang lain
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.note_alt_outlined), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
@@ -159,49 +190,50 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildFoodItem(String name, String calories, String weight) {
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 8),
-    padding: EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: Colors.grey.shade100,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Row(
-      children: [
-        Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.grey,
-            image: DecorationImage(
-              image: NetworkImage('https://via.placeholder.com/50'), // Ubah dengan URL dari Firebase
-              fit: BoxFit.cover,
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey,
+              image: DecorationImage(
+                image: NetworkImage(
+                    'https://via.placeholder.com/50'), // Ubah dengan URL dari Firebase
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              Text(
-                '$calories | $weight',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                Text(
+                  '$calories | $weight',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: () {}, // Tambahkan logika untuk menghapus
-          icon: Icon(Icons.remove_circle_outline, color: Colors.red),
-        ),
-      ],
-    ),
-  );
-}
+          IconButton(
+            onPressed: () {}, // Tambahkan logika untuk menghapus
+            icon: Icon(Icons.remove_circle_outline, color: Colors.red),
+          ),
+        ],
+      ),
+    );
+  }
 }

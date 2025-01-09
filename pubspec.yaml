@@ -70,6 +70,7 @@ flutter:
     - assets/image/google.png
     - assets/image/logo_ijo.png
     - assets/image/okarun.jpg
+    - assets/image/food.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
