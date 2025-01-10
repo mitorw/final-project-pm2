@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/food_controller.dart';
 
 class FoodView extends GetView<FoodController> {
   FoodView({Key? key}) : super(key: key);
 
   final FoodController controller = Get.put(FoodController());
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Food Menu'),
@@ -24,7 +24,9 @@ class FoodView extends GetView<FoodController> {
             TextField(
               controller: searchController,
               decoration: const InputDecoration(
-                  labelText: 'Enter food', border: OutlineInputBorder()),
+                labelText: 'Enter food',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
@@ -32,11 +34,10 @@ class FoodView extends GetView<FoodController> {
                 controller.searchFood(searchController.text);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF1F3826), // Warna hijau
-                minimumSize: const Size(double.infinity, 48), // Ukuran tombol
+                backgroundColor: const Color(0xFF1F3826),
+                minimumSize: const Size(double.infinity, 48),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      8), // Radius yang sama dengan TextField
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
               child: const Text(
@@ -58,7 +59,7 @@ class FoodView extends GetView<FoodController> {
                 padding: const EdgeInsets.all(16),
                 margin: const EdgeInsets.only(top: 16),
                 decoration: BoxDecoration(
-                  color: Color(0xFF1F3826),
+                  color: const Color(0xFF1F3826),
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
@@ -69,7 +70,6 @@ class FoodView extends GetView<FoodController> {
                   ],
                 ),
                 child: Obx(() {
-                  // Tampilkan hasil pencarian
                   if (controller.searchResults.isEmpty) {
                     return const Center(
                       child: Text(
@@ -84,11 +84,12 @@ class FoodView extends GetView<FoodController> {
                     itemBuilder: (context, index) {
                       final food = controller.searchResults[index];
                       final calories = food['calories'] != null
-                          ? '${food['calories']} cal' // Tambahkan "cal"
-                          : '0 cal'; // Jika tidak ada data, tampilkan default
+                          ? '${food['calories']} cal'
+                          : '0 cal';
                       final weight = food['weight'] != null
-                          ? '${food['weight']} g' // Tambahkan "g"
+                          ? '${food['weight']} g'
                           : 'No weight';
+
                       return Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(12),
@@ -99,7 +100,6 @@ class FoodView extends GetView<FoodController> {
                         ),
                         child: Row(
                           children: [
-                            // Placeholder untuk gambar
                             Container(
                               width: 50,
                               height: 50,
@@ -107,15 +107,12 @@ class FoodView extends GetView<FoodController> {
                                 shape: BoxShape.circle,
                                 color: Colors.grey.shade300,
                                 image: const DecorationImage(
-                                  image: AssetImage(
-                                      'assets/image/food.jpg'), // Ganti dengan gambar Anda
+                                  image: AssetImage('assets/image/food.jpg'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                                width: 12), // Pindahkan di luar Container
-                            // Informasi makanan
+                            const SizedBox(width: 12),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,12 +139,7 @@ class FoodView extends GetView<FoodController> {
                             IconButton(
                               icon: const Icon(Icons.add, color: Colors.green),
                               onPressed: () {
-                                final food = {
-                                  'name': 'Pizza',
-                                  'calories': 300,
-                                  'weight': 200,
-                                }; // Contoh data makanan
-                                Get.back(result: food);
+                                controller.addFoodToMenu(food); // Simpan ke Firestore
                               },
                             ),
                           ],
