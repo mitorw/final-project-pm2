@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:get/get.dart';
 import 'package:myapp/app/modules/artikel/views/artikel_view.dart';
 import 'package:myapp/app/modules/food/views/food_view.dart';
@@ -9,6 +7,7 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +68,7 @@ class HomeView extends GetView<HomeController> {
                   ],
                 ),
                 SizedBox(height: 16),
+                // Menampilkan Total Calories dan Calories Limit
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -78,9 +78,16 @@ class HomeView extends GetView<HomeController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildCalorieInfo("Breakfast", "420 cal", true),
-                      _buildCalorieInfo("Brunch", "200 cal", false),
-                      _buildCalorieInfo("Calories Limit", "1500 cal", false),
+                      _buildCalorieInfo(
+                        "Total Calories Today",
+                        "${controller.totalCaloriesToday} cal",
+                        false,
+                      ),
+                      _buildCalorieInfo(
+                        "Calories Limit",
+                        "${2200 - controller.totalCaloriesToday} cal",
+                        false,
+                      ),
                     ],
                   ),
                 ),
@@ -90,69 +97,68 @@ class HomeView extends GetView<HomeController> {
           SizedBox(
             height: 16,
           ),
-Expanded(
-  child: Obx(() {
-    if (controller.foodList.isEmpty) {
-      return Center(
-        child: Text(
-          "No food added yet.",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      );
-    }
+          Expanded(
+            child: Obx(() {
+              if (controller.foodList.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No food added yet.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              }
 
-    return ListView.builder(
-      itemCount: controller.foodList.length,
-      itemBuilder: (context, index) {
-        final food = controller.foodList[index];
-        return Card(
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+              return ListView.builder(
+                itemCount: controller.foodList.length,
+                itemBuilder: (context, index) {
+                  final food = controller.foodList[index];
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 5,
+                    child: ListTile(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                      leading: Icon(
+                        Icons.food_bank,
+                        color: Colors.orangeAccent,
+                        size: 30,
+                      ),
+                      title: Text(
+                        food['name'] ?? 'Unknown',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      subtitle: Text(
+                        '${food['calories']} cal | ${food['weight']} g',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 18,
+                        color: Colors.grey[600],
+                      ),
+                      onTap: () {
+                        // Add your onTap action here
+                      },
+                    ),
+                  );
+                },
+              );
+            }),
           ),
-          elevation: 5,
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-            leading: Icon(
-              Icons.food_bank,
-              color: Colors.orangeAccent,
-              size: 30,
-            ),
-            title: Text(
-              food['name'] ?? 'Unknown',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
-            ),
-            subtitle: Text(
-              '${food['calories']} cal | ${food['weight']} g',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-              color: Colors.grey[600],
-            ),
-            onTap: () {
-              // Add your onTap action here
-            },
-          ),
-        );
-      },
-    );
-  }),
-)
-
-
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -183,7 +189,7 @@ Expanded(
           BottomNavigationBarItem(
               icon: Icon(Icons.note_alt_outlined), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.history_sharp), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
         ],
       ),
@@ -226,54 +232,6 @@ Expanded(
               color: isSelected ? Colors.green : Colors.black),
         ),
       ],
-    );
-  }
-
-  Widget _buildFoodItem(String name, String calories, String weight) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey,
-              image: DecorationImage(
-                image: NetworkImage(
-                    'https://via.placeholder.com/50'), // Ubah dengan URL dari Firebase
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                Text(
-                  '$calories | $weight',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: () {}, // Tambahkan logika untuk menghapus
-            icon: Icon(Icons.remove_circle_outline, color: Colors.red),
-          ),
-        ],
-      ),
     );
   }
 }
