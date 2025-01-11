@@ -30,31 +30,44 @@ class FoodController extends GetxController {
   }
 
   // Fungsi untuk menyimpan makanan ke koleksi 'menu' di Firestore
-  Future<void> addFoodToMenu(Map<String, dynamic> food) async {
-    try {
-      await _firestore.collection('menu').add({
-        'name': food['name'] ?? 'Unknown', // Nama makanan
-        'calories': food['calories'] ?? 0, // Kalori makanan
-        'weight': food['weight'] ?? 'No weight', // Berat makanan
-        'addedAt': FieldValue.serverTimestamp(), // Waktu penambahan otomatis
-      });
+Future<void> addFoodToMenu(Map<String, dynamic> food) async {
+  try {
+    await _firestore.collection('menu').add({
+      'name': food['name'] ?? 'Unknown', // Nama makanan
+      'calories': food['calories'] ?? 0, // Kalori makanan
+      'weight': food['weight'] ?? 'No weight', // Berat makanan
+      'addedAt': FieldValue.serverTimestamp(), // Waktu penambahan otomatis
+    });
 
-      Get.snackbar(
-        'Success',
-        '${food['name']} has been added to the menu!',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } catch (e) {
-      print('Error adding food to menu: $e');
-      Get.snackbar(
-        'Error',
-        'Failed to add food to the menu. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xFFFF0000),
-        colorText: const Color(0xFFFFFFFF),
-      );
-    }
+    Get.snackbar(
+      'Success!',
+      '${food['name']} has been added to the menu!',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.green.shade600,
+      colorText: Colors.white,
+      icon: const Icon(Icons.check_circle, color: Colors.white),
+      borderRadius: 10,
+      margin: const EdgeInsets.all(10),
+      duration: const Duration(seconds: 3),
+      animationDuration: const Duration(milliseconds: 500),
+    );
+  } catch (e) {
+    print('Error adding food to menu: $e');
+    Get.snackbar(
+      'Error!',
+      'Failed to add ${food['name']} to the menu. Please try again.',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.red.shade600,
+      colorText: Colors.white,
+      icon: const Icon(Icons.error, color: Colors.white),
+      borderRadius: 10,
+      margin: const EdgeInsets.all(10),
+      duration: const Duration(seconds: 3),
+      animationDuration: const Duration(milliseconds: 500),
+    );
   }
+}
+
 
   
 }
