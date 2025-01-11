@@ -19,39 +19,46 @@ class HomeController extends GetxController {
     DateTime endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
     _firestore
-        .collection('menu')
+        .collection('menu')  // Pastikan koleksi yang digunakan adalah menu
         .where('addedAt', isGreaterThanOrEqualTo: startOfDay)
         .where('addedAt', isLessThanOrEqualTo: endOfDay)
         .orderBy('addedAt', descending: true)
         .snapshots()
         .listen((querySnapshot) {
-      // Perbarui foodList setiap kali ada perubahan di Firestore
-      foodList.value = querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
-          .toList();
+      // Mengupdate foodList secara realtime
+      foodList.value = querySnapshot.docs.map((doc) {
+        var data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id;  // Menambahkan ID dokumen untuk penghapusan
+        return data;
+      }).toList();
     });
   }
 
-  // Fungsi untuk menghitung total kalori pada hari ini
+  // Fungsi untuk menghapus makanan dari koleksi 'menu' di Firestore
+  void deleteFood(String foodId) async {
+    try {
+      // Menghapus makanan dari koleksi 'menu' di Firestore berdasarkan foodId
+      await _firestore.collection('menu').doc(foodId).delete();
+    } catch (e) {
+      print("Error deleting food: $e");
+    }
+  }
+
+  // Menambahkan fungsi untuk mendapatkan total kalori hari ini
   int get totalCaloriesToday {
-    DateTime now = DateTime.now();
     return foodList.fold(0, (sum, food) {
-      // Memeriksa apakah food['addedAt'] berada pada tanggal yang sama dengan hari ini
-      Timestamp addedAt = food['addedAt'];
-      DateTime foodDate = addedAt.toDate();
-      if (foodDate.year == now.year && foodDate.month == now.month && foodDate.day == now.day) {
-        var calories = food['calories'];
-        if (calories is int) {
-          return sum + calories; // Jika 'calories' adalah int, tambahkan
-        } else if (calories is double) {
-          return sum + calories.toInt(); // Jika 'calories' adalah double, tambahkan
-        }
+      var calories = food['calories'];
+      if (calories is int) {
+        return sum + calories;
+      } else if (calories is double) {
+        return sum + calories.toInt();
+      } else {
+        return sum;
       }
-      return sum;
     });
   }
 
-  // Tambahkan fungsi untuk menambahkan makanan ke daftar manual (jika diperlukan)
+  // Fungsi untuk menambahkan makanan ke foodList
   void addFoodToList(Map<String, dynamic> food) {
     foodList.add(food);
     update();

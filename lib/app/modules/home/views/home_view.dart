@@ -97,68 +97,76 @@ class HomeView extends GetView<HomeController> {
           SizedBox(
             height: 16,
           ),
-          Expanded(
-            child: Obx(() {
-              if (controller.foodList.isEmpty) {
-                return Center(
-                  child: Text(
-                    "No food added yet.",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                );
-              }
-
-              return ListView.builder(
-                itemCount: controller.foodList.length,
-                itemBuilder: (context, index) {
-                  final food = controller.foodList[index];
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 5,
-                    child: ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                      leading: Icon(
-                        Icons.food_bank,
-                        color: Colors.orangeAccent,
-                        size: 30,
-                      ),
-                      title: Text(
-                        food['name'] ?? 'Unknown',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '${food['calories']} cal | ${food['weight']} g',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
-                        color: Colors.grey[600],
-                      ),
-                      onTap: () {
-                        // Add your onTap action here
-                      },
-                    ),
-                  );
-                },
-              );
-            }),
+Expanded(
+  child: Obx(() {
+    if (controller.foodList.isEmpty) {
+      return Center(
+        child: Text(
+          "No food added yet.",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: controller.foodList.length,
+      itemBuilder: (context, index) {
+        final food = controller.foodList[index];
+
+        return Card(
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 5,
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            leading: Icon(
+              Icons.food_bank,
+              color: Colors.orangeAccent,
+              size: 30,
+            ),
+            title: Text(
+              food['name'] ?? 'Unknown',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            subtitle: Text(
+              '${food['calories']} cal | ${food['weight']} g',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
+              ),
+            ),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.delete,
+                size: 20,
+                color: Colors.red,
+              ),
+              onPressed: () {
+                // Menghapus makanan berdasarkan ID dari koleksi 'menu'
+                controller.deleteFood(food['id']);
+              },
+            ),
+            onTap: () {
+              // Aksi ketika item makanan diklik (jika ada aksi yang diperlukan)
+            },
+          ),
+        );
+      },
+    );
+  }),
+)
+
+
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
