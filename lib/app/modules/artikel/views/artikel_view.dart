@@ -4,8 +4,33 @@ import 'package:myapp/app/modules/home/views/home_view.dart';
 import 'package:myapp/app/modules/food/views/food_view.dart';
 import 'package:myapp/app/modules/history/views/history_view.dart';
 
-class ArtikelView extends StatelessWidget {
+class ArtikelView extends StatefulWidget {
   const ArtikelView({Key? key}) : super(key: key);
+
+  @override
+  State<ArtikelView> createState() => _ArtikelViewState();
+}
+
+class _ArtikelViewState extends State<ArtikelView> {
+  int _currentIndex = 1; // Indeks default untuk Artikel
+
+  void _onItemTapped(int index) async {
+    if (index == _currentIndex) return; // Jika sudah terpilih, tidak perlu tindakan
+    setState(() {
+      _currentIndex = index; // Update indeks aktif
+    });
+
+    if (index == 0) {
+      Get.off(() => const HomeView());
+    } else if (index == 1) {
+      Get.off(() => const ArtikelView());
+    } else if (index == 2) {
+      final selectedFood = await Get.to(() => FoodView());
+      if (selectedFood != null) {}
+    } else if (index == 3) {
+      Get.off(() => const HistoryView());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,21 +68,21 @@ class ArtikelView extends StatelessWidget {
               imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs1XYSSNFpQxuc-OYRru-OUegkn6vwWw31_A&s',
               title: 'Senaran kalori Buah-buahan dan sayuran yang sehat untuk kamu !!',
               link: 'https://www.kopas.com',
-              content: 'Buah-buahan dan sayuran adalah sumber kalori yang sangat baik untuk mendukung gaya hidup sehat. Mereka tidak hanya kaya akan vitamin, mineral, dan serat, tetapi juga memberikan energi yang diperlukan tubuh tanpa menambah kalori berlebih. Beberapa buah seperti apel, pisang, dan jeruk, serta sayuran seperti bayam, brokoli, dan wortel, memberikan kalori yang seimbang dan nutrisi penting. Mengonsumsi berbagai jenis buah dan sayur setiap hari dapat membantu menjaga keseimbangan energi tubuh, meningkatkan metabolisme, serta mendukung sistem kekebalan tubuh. Memasukkan lebih banyak pilihan makanan alami ini ke dalam pola makan dapat memberikan manfaat jangka panjang bagi kesehatan.',
+              content: 'Buah-buahan dan sayuran adalah sumber kalori yang sangat baik...',
             ),
             const SizedBox(height: 16),
             _buildArticleCard(
               imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMxjtNdPmV-qHNIeO4f439QrRDcu5Jd_YL7A&s',
               title: 'Terapkan kebiasaan ini untuk mulai hidup sehat anda sekarang !!',
               link: 'https://www.liputans.com',
-              content: 'Mulailah hidup sehat dengan menerapkan kebiasaan sederhana yang dapat meningkatkan kualitas hidup secara keseluruhan. Pertama, konsumsi lebih banyak buah dan sayuran setiap hari untuk memastikan tubuh mendapatkan nutrisi yang diperlukan. Pilih makanan alami yang rendah kalori namun kaya akan serat dan vitamin. Selain itu, perbanyak aktivitas fisik dengan rutin berolahraga, seperti berjalan kaki, bersepeda, atau yoga. Jangan lupa untuk cukup tidur, karena tidur yang berkualitas sangat berperan dalam pemulihan tubuh dan keseimbangan hormon. Batasi konsumsi makanan olahan dan gula berlebih, serta minum air putih secara cukup untuk menjaga tubuh tetap terhidrasi. Dengan membiasakan diri menjalani gaya hidup sehat ini, Anda akan merasakan peningkatan energi, kebugaran, dan kualitas hidup yang lebih baik.',
+              content: 'Mulailah hidup sehat dengan menerapkan kebiasaan sederhana...',
             ),
             const SizedBox(height: 16),
             _buildArticleCard(
               imageUrl: 'https://asset.kompas.com/crops/33cZFODwBUFwimy5yXpUCVVlQsQ=/1x1:978x652/1200x800/data/photo/2021/11/16/6193c223645d9.jpg',
               title: 'Hindari makanan berikut jika anda ingin hidup lebih sehat !!',
               link: 'https://www.haidos.com',
-              content: 'Jika Anda ingin hidup lebih sehat, sebaiknya hindari beberapa jenis makanan yang dapat membahayakan kesehatan tubuh. Pertama, makanan olahan tinggi gula, seperti permen, minuman manis, dan makanan ringan kemasan, dapat meningkatkan risiko obesitas, diabetes, dan penyakit jantung. Kedua, makanan tinggi lemak jenuh dan trans, seperti gorengan, makanan cepat saji, dan produk olahan daging, dapat mempengaruhi kesehatan jantung dan meningkatkan kadar kolesterol jahat dalam darah. Selain itu, batasi konsumsi makanan tinggi garam, seperti makanan kaleng atau makanan instan, yang dapat menyebabkan hipertensi dan masalah ginjal. Terakhir, hindari alkohol berlebihan dan makanan yang mengandung bahan pengawet atau zat kimia berbahaya, karena dapat merusak organ tubuh dan mengurangi sistem kekebalan tubuh. Menghindari makanan tersebut akan membantu Anda menjaga tubuh tetap sehat dan bugar.',
+              content: 'Jika Anda ingin hidup lebih sehat, sebaiknya hindari...',
             ),
           ],
         ),
@@ -66,22 +91,8 @@ class ArtikelView extends StatelessWidget {
         backgroundColor: const Color(0xFF1F3826),
         selectedItemColor: const Color(0xFF1F3826),
         unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        onTap: (index) async {
-          if (index == 0) {
-            Get.off(() => HomeView());
-          }
-          if (index == 1) {
-            Get.off(() => ArtikelView());
-          }
-          if (index == 2) {
-            final selectedFood = await Get.to(() => FoodView());
-            if (selectedFood != null) {}
-          }
-          if (index == 3) {
-            Get.off(() => HistoryView());
-          }
-        },
+        currentIndex: _currentIndex, // Set currentIndex untuk menampilkan item terpilih
+        onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),

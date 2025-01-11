@@ -133,33 +133,35 @@ class HistoryView extends StatelessWidget {
           );
         }),
       ),
-       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFF1F3826),
-        selectedItemColor: const Color(0xFF1F3826),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        onTap: (index) {
-          if (index == 0) {
-            Get.off(() => HomeView());
-          }
-          if (index == 1) {
-            Get.off(() => ArtikelView());
-          }
-          if (index == 2) {
-            Get.off(() => FoodView());
-          }
-          if (index == 3) {
-            Get.off(() => HistoryView());
-          }
-        
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.history_sharp), label: ''),
-        ],
-      ),
+       bottomNavigationBar: Obx(() {
+  return BottomNavigationBar(
+    backgroundColor: const Color(0xFF1F3826),
+    selectedItemColor: const Color(0xFF1F3826),
+    unselectedItemColor: Colors.grey,
+    currentIndex: controller.currentIndex.value,
+    onTap: (index) {
+      controller.updateCurrentIndex(index);
+      if (index == 0) {
+        Get.off(() => HomeView());
+      }
+      if (index == 1) {
+        Get.off(() => ArtikelView());
+      }
+      if (index == 2) {
+        Get.off(() => FoodView());
+      }
+      if (index == 3) {
+        Get.off(() => HistoryView());
+      }
+    },
+    items: const [
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.history_sharp), label: ''),
+    ],
+  );
+}),
     );
   }
 }

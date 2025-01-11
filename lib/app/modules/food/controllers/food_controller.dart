@@ -6,6 +6,11 @@ class FoodController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   var searchResults = [].obs; 
+  var currentIndex = 2.obs;
+
+  void updateCurrentIndex(int index) {
+    currentIndex.value = index;
+  }
 
   void searchFood(String query) async {
     if (query.isEmpty) {

@@ -5,13 +5,17 @@ class HistoryController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   var dailyCalories = <DateTime, int>{}.obs;
-
   var selectedDateFoods = <Map<String, dynamic>>[].obs;
+  var currentIndex = 3.obs;
 
   @override
   void onInit() {
     super.onInit();
     fetchDailyCalories();
+  }
+
+void updateCurrentIndex(int index) {
+    currentIndex.value = index;
   }
 
 void fetchDailyCalories() async {
