@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/app/modules/home/views/home_view.dart';
+import 'package:myapp/app/modules/food/views/food_view.dart';
+import 'package:myapp/app/modules/history/views/history_view.dart';
 
 class ArtikelView extends StatelessWidget {
   const ArtikelView({Key? key}) : super(key: key);
@@ -7,15 +10,15 @@ class ArtikelView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF003D29),
+      backgroundColor: const Color(0xFF003D29),
       appBar: AppBar(
-        backgroundColor: Color(0xFFEBE4DA),
+        backgroundColor: const Color(0xFFEBE4DA),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Get.back(),
         ),
-        title: Text(
+        title: const Text(
           "Artikel",
           style: TextStyle(
             color: Colors.black,
@@ -25,7 +28,7 @@ class ArtikelView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.settings,
               color: Colors.black,
             ),
@@ -37,24 +40,56 @@ class ArtikelView extends StatelessWidget {
         child: ListView(
           children: [
             _buildArticleCard(
-              imageUrl: 'https://i.pinimg.com/736x/db/65/76/db6576a4763eae42a8c78d43bb478b21.jpg',
-              title: 'Senaran kalori Buah-buahan dan sayuran yang sehat untuk kamu !!',
+              imageUrl:
+                  'https://i.pinimg.com/736x/db/65/76/db6576a4763eae42a8c78d43bb478b21.jpg',
+              title:
+                  'Senaran kalori Buah-buahan dan sayuran yang sehat untuk kamu !!',
               link: 'https://www.kopas.com',
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildArticleCard(
               imageUrl: 'https://via.placeholder.com/300x150',
-              title: 'Terapkan kebiasaan ini untuk mulai hidup sehat anda sekarang !!',
+              title:
+                  'Terapkan kebiasaan ini untuk mulai hidup sehat anda sekarang !!',
               link: 'https://www.liputans.com',
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildArticleCard(
               imageUrl: 'https://via.placeholder.com/300x150',
-              title: 'Hindari makanan berikut jika anda ingin hidup lebih sehat !!',
+              title:
+                  'Hindari makanan berikut jika anda ingin hidup lebih sehat !!',
               link: 'https://www.haidos.com',
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF1F3826),
+        selectedItemColor: const Color(0xFF1F3826),
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
+        onTap: (index) async {
+          if (index == 0) {
+            Get.off(() =>  HomeView());
+          }
+          if (index == 1) {
+            Get.off(() =>  ArtikelView());
+          }
+          if (index == 2) {
+            final selectedFood = await Get.to(() =>  FoodView());
+            if (selectedFood != null) {
+            }
+          }
+          if (index == 3) {
+            Get.off(() =>  HistoryView());
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.history_sharp), label: ''),
+        ],
       ),
     );
   }
@@ -76,14 +111,15 @@ class ArtikelView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
               child: Image.network(imageUrl, fit: BoxFit.cover),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -94,12 +130,12 @@ class ArtikelView extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8, bottom: 8),
               child: Text(
                 link,
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
               ),
             ),
           ],
         ),
-     ),
-);
-}
+      ),
+    );
+  }
 }

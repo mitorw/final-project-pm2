@@ -4,10 +4,8 @@ import 'package:get/get.dart';
 class HistoryController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Map untuk menyimpan data kalori harian
   var dailyCalories = <DateTime, int>{}.obs;
 
-  // List makanan/minuman pada hari tertentu
   var selectedDateFoods = <Map<String, dynamic>>[].obs;
 
   @override
@@ -16,11 +14,9 @@ class HistoryController extends GetxController {
     fetchDailyCalories();
   }
 
-  // Mengambil data kalori harian
 void fetchDailyCalories() async {
   final querySnapshot = await _firestore.collection('menu').get();
 
-  // Mengelompokkan data berdasarkan tanggal
   Map<DateTime, int> tempDailyCalories = {};
   for (var doc in querySnapshot.docs) {
     final data = doc.data();
@@ -34,7 +30,6 @@ void fetchDailyCalories() async {
         timestamp.toDate().day,
       );
 
-      // Tambahkan jumlah kalori untuk tanggal tertentu
       tempDailyCalories[date] = (tempDailyCalories[date] ?? 0) + (calories as num).toInt();
     }
   }
@@ -43,7 +38,6 @@ void fetchDailyCalories() async {
 }
 
 
-  // Mengambil makanan/minuman pada tanggal tertentu
   void fetchFoodForDate(DateTime date) async {
     final startOfDay = Timestamp.fromDate(DateTime(date.year, date.month, date.day, 0, 0, 0));
     final endOfDay = Timestamp.fromDate(DateTime(date.year, date.month, date.day, 23, 59, 59));

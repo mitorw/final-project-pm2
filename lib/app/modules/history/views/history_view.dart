@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/app/modules/artikel/views/artikel_view.dart';
+import 'package:myapp/app/modules/food/views/food_view.dart';
+import 'package:myapp/app/modules/home/views/home_view.dart';
 import '../controllers/history_controller.dart';
 
 class HistoryView extends StatelessWidget {
@@ -65,7 +68,7 @@ class HistoryView extends StatelessWidget {
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white),
                   onTap: () {
-                    controller.fetchFoodForDate(date); // Fetch makanan/minuman untuk tanggal yang dipilih
+                    controller.fetchFoodForDate(date); 
                     showModalBottomSheet(
                       context: context,
                       shape: const RoundedRectangleBorder(
@@ -130,6 +133,33 @@ class HistoryView extends StatelessWidget {
             },
           );
         }),
+      ),
+       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF1F3826),
+        selectedItemColor: const Color(0xFF1F3826),
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
+        onTap: (index) {
+          if (index == 0) {
+            Get.off(() => HomeView());
+          }
+          if (index == 1) {
+            Get.off(() => ArtikelView());
+          }
+          if (index == 2) {
+            Get.off(() => FoodView());
+          }
+          if (index == 3) {
+            Get.off(() => HistoryView());
+          }
+        
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.history_sharp), label: ''),
+        ],
       ),
     );
   }

@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 class FoodController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  var searchResults = [].obs; // Hasil pencarian
+  var searchResults = [].obs; 
 
-  // Fungsi untuk mencari makanan berdasarkan nama
   void searchFood(String query) async {
     if (query.isEmpty) {
       searchResults.clear();
@@ -29,14 +28,13 @@ class FoodController extends GetxController {
     }
   }
 
-  // Fungsi untuk menyimpan makanan ke koleksi 'menu' di Firestore
 Future<void> addFoodToMenu(Map<String, dynamic> food) async {
   try {
     await _firestore.collection('menu').add({
-      'name': food['name'] ?? 'Unknown', // Nama makanan
-      'calories': food['calories'] ?? 0, // Kalori makanan
-      'weight': food['weight'] ?? 'No weight', // Berat makanan
-      'addedAt': FieldValue.serverTimestamp(), // Waktu penambahan otomatis
+      'name': food['name'] ?? 'Unknown', 
+      'calories': food['calories'] ?? 0, 
+      'weight': food['weight'] ?? 'No weight', 
+      'addedAt': FieldValue.serverTimestamp(), 
     });
 
     Get.snackbar(

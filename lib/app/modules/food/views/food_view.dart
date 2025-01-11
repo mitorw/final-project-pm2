@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/food_controller.dart';
+import 'package:myapp/app/modules/home/views/home_view.dart';
+import 'package:myapp/app/modules/artikel/views/artikel_view.dart';
+import 'package:myapp/app/modules/history/views/history_view.dart';
 
 class FoodView extends GetView<FoodController> {
   FoodView({Key? key}) : super(key: key);
@@ -139,7 +142,8 @@ class FoodView extends GetView<FoodController> {
                             IconButton(
                               icon: const Icon(Icons.add, color: Colors.green),
                               onPressed: () {
-                                controller.addFoodToMenu(food); // Simpan ke Firestore
+                                controller
+                                    .addFoodToMenu(food); 
                               },
                             ),
                           ],
@@ -152,6 +156,33 @@ class FoodView extends GetView<FoodController> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF1F3826),
+        selectedItemColor: const Color(0xFF1F3826),
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
+        onTap: (index) {
+          if (index == 0) {
+            Get.off(() => HomeView());
+          }
+          if (index == 1) {
+            Get.off(() => ArtikelView());
+          }
+          if (index == 2) {
+            Get.off(() => FoodView());
+          }
+          if (index == 3) {
+            Get.off(() => HistoryView());
+          }
+       
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.note_alt_outlined), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.history_sharp), label: ''),
+        ],
       ),
     );
   }
