@@ -32,7 +32,10 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // Trigger logout dialog when the settings icon is pressed
+              _showLogoutDialog(context);
+            },
             icon: const Icon(
               Icons.settings,
               color: Colors.black,
@@ -56,42 +59,6 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     _buildInfoBox("Weight"),
-                //     _buildInfoBox("Height"),
-                //     _buildInfoBox("Activity"),
-                //   ],
-                // ),
-                // const SizedBox(height: 16),
-                // Obx(() => Container(
-                //       padding: const EdgeInsets.all(12),
-                //       decoration: BoxDecoration(
-                //         color: Colors.white,
-                //         borderRadius: BorderRadius.circular(10),
-                //         boxShadow: [
-                //           BoxShadow(
-                //             color: Colors.black.withOpacity(0.1),
-                //             blurRadius: 10,
-                //             offset: const Offset(0, 5),
-                //           ),
-                //         ],
-                //       ),
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           _buildCalorieInfo(
-                //             "Total Calories Today",
-                //             "${controller.totalCaloriesToday.value} cal",
-                //           ),
-                //           _buildCalorieInfo(
-                //             "Calories Limit",
-                //             "${2200 - controller.totalCaloriesToday.value} cal",
-                //           ),
-                //         ],
-                //       ),
-                //     )),
               ],
             ),
           ),
@@ -156,14 +123,13 @@ class HomeView extends GetView<HomeController> {
                           controller.deleteFood(food['id']);
                         },
                       ),
-                      onTap: () {
-                      },
+                      onTap: () {},
                     ),
                   );
                 },
               );
             }),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -178,13 +144,12 @@ class HomeView extends GetView<HomeController> {
           if (index == 2) {
             final selectedFood = await Get.to(() => FoodView());
             if (selectedFood != null) {
-              controller.addFoodToList(selectedFood); 
+              controller.addFoodToList(selectedFood);
             }
           }
           if (index == 3) {
             Get.to(() => HistoryView());
           }
-       
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
@@ -196,45 +161,33 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  // Widget _buildInfoBox(String text) {
-  //   return Expanded(
-  //     child: Container(
-  //       height: 50,
-  //       margin: const EdgeInsets.symmetric(horizontal: 4),
-  //       decoration: BoxDecoration(
-  //         color: Colors.grey.shade200,
-  //         borderRadius: BorderRadius.circular(10),
-  //       ),
-  //       child: Center(
-  //         child: Text(
-  //           text,
-  //           style: const TextStyle(fontSize: 14, color: Colors.black),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildCalorieInfo(String title, String value) {
-  //   return Column(
-  //     children: [
-  //       Text(
-  //         title,
-  //         style: const TextStyle(
-  //           fontSize: 14,
-  //           color: Colors.black,
-  //         ),
-  //       ),
-  //       const SizedBox(height: 4),
-  //       Text(
-  //         value,
-  //         style: const TextStyle(
-  //           fontSize: 14,
-  //           fontWeight: FontWeight.bold,
-  //           color: Colors.black,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+  // Logout confirmation dialog
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Implement your logout logic here
+                Navigator.of(context).pop();
+                // For example, clear user data and navigate to login page
+                Get.offAllNamed('/login'); // Change '/login' to your login screen route
+              },
+              child: const Text('Logout'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
