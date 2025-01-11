@@ -17,16 +17,15 @@ class HistoryView extends StatelessWidget {
         title: const Text(
           'History',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.grey.shade300,
+        backgroundColor: Color(0xFFEBE4DA),
         centerTitle: true,
         elevation: 0,
       ),
       body: Container(
-        color: Colors.green.shade100,
+        color: Color(0xFF1F3826),
         child: Obx(() {
           if (controller.dailyCalories.isEmpty) {
             return const Center(
@@ -45,28 +44,28 @@ class HistoryView extends StatelessWidget {
               final calories = controller.dailyCalories[date];
 
               return Card(
-                color: Colors.green.shade300,
+                color: Colors.white,
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16.0),
                   leading: CircleAvatar(
-                    backgroundColor: Colors.grey.shade800,
+                    backgroundColor: Color(0xFF1F3826),
                     child: const Icon(Icons.calendar_today, color: Colors.white),
                   ),
                   title: Text(
                     "${date.toLocal()}".split(' ')[0],
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: Text(
                     "Calories: $calories",
-                    style: const TextStyle(color: Colors.white70, fontSize: 16),
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+                  trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black),
                   onTap: () {
                     controller.fetchFoodForDate(date); 
                     showModalBottomSheet(
@@ -78,7 +77,7 @@ class HistoryView extends StatelessWidget {
                         return Container(
                           padding: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
-                            color: Colors.green.shade50,
+                            color: Color(0xFF1F3826),
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                           ),
                           child: Obx(() {
@@ -104,7 +103,7 @@ class HistoryView extends StatelessWidget {
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                   child: ListTile(
                                     leading: CircleAvatar(
-                                      backgroundColor: Colors.green.shade200,
+                                      backgroundColor: Color(0xFF1F3826),
                                       child: const Icon(Icons.fastfood, color: Colors.white),
                                     ),
                                     title: Text(

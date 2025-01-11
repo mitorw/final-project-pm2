@@ -18,6 +18,7 @@ class FoodView extends GetView<FoodController> {
       appBar: AppBar(
         title: const Text('Food Menu'),
         centerTitle: true,
+        backgroundColor: Color(0xFFEBE4DA),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
