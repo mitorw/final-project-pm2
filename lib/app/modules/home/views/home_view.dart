@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/app/modules/artikel/views/artikel_view.dart';
 import 'package:myapp/app/modules/food/views/food_view.dart';
+import 'package:myapp/app/modules/history/views/history_view.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -185,7 +186,7 @@ Expanded(
             }
           }
           if (index == 3) {
-            Get.to(() => ArtikelView());
+            Get.to(() => HistoryView());
           }
           if (index == 4) {
             Get.to(() => ArtikelView());
